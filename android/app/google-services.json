@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "288328800713",
+    "project_id": "puppeton-35d03",
+    "storage_bucket": "puppeton-35d03.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:288328800713:android:0306af957f186dddcef018",
+        "android_client_info": {
+          "package_name": "com.example.puppeton"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB5P1FFL_bkbi7PFFIxE-OlOelYaaQZ74A"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
