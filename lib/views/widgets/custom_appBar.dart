@@ -5,10 +5,9 @@ import '../../const/color_const.dart';
 
 AppBar appbar({required String name}) {
   return AppBar(
-    automaticallyImplyLeading: false,
     elevation: 0,
     centerTitle: true,
-    toolbarHeight: 45,
+    toolbarHeight: 60,
     backgroundColor: ColorConst.primaryColor,
     systemOverlayStyle: const SystemUiOverlayStyle().copyWith(
       statusBarColor: ColorConst.primaryColor,
@@ -32,8 +31,7 @@ AppBar appbar({required String name}) {
             Text(
               name,
               style: const TextStyle(
-                fontSize: 30,
-              ),
+                  fontSize: 30, fontWeight: FontWeight.bold, wordSpacing: 2),
             ),
             //SizedBox(height: AppSizes.height10 * 1.5),
             // Image.asset(

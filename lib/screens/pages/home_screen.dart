@@ -1,13 +1,22 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:get/get.dart';
-import 'package:get/get_core/src/get_main.dart';
 import 'package:puppeton/const/color_const.dart';
+import 'package:puppeton/const/font_const.dart';
+import 'package:puppeton/const/image_const.dart';
 import 'package:puppeton/views/widgets/custom_appBar.dart';
+import 'package:video_player/video_player.dart';
 
-import '../../views/widgets/category_filter.dart';
+String? name = ' ';
+String? email = ' ';
+String? bio = ' ';
+String? profilePic = "assets/images/default_image.png";
+String? phoneNumber = ' ';
+String? aadhar = ' ';
+String? uid = ' ';
+
+Color white = Colors.white;
 
 class HomeScreen extends StatefulWidget {
   static double height10 = 0.0;
@@ -28,14 +37,6 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  String? name = ' ';
-  String? email = ' ';
-  String? bio = ' ';
-  String? profilePic = "assets/images/default_image1.png";
-  String? phoneNumber = ' ';
-  String? aadhar = ' ';
-  String? uid = ' ';
-
   Future<void> _getData() async {
     final snapshot = await FirebaseFirestore.instance
         .collection('users')
@@ -63,13 +64,22 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   var currentIndex = 0;
-  int _selectedPageIndex = 0;
   User? user = FirebaseAuth.instance.currentUser;
 
-  final List<String> imgList = [
-    'assets/images/img17.png',
-    'assets/images/img12.png',
-    'assets/images/img15.png',
+  final List<String> videoAssets = [
+    'assets/videos/1.mp4',
+    'assets/videos/2.mp4',
+    'assets/videos/3.mp4',
+    'assets/videos/4.mp4',
+    'assets/videos/5.mp4',
+  ];
+
+  final List<String> videoTitles = [
+    'Puppet Story 1',
+    'Puppet Story 2',
+    'Puppet Story 3',
+    'Puppet Story 4',
+    'Puppet Story 5',
   ];
 
   @override
@@ -79,6 +89,152 @@ class _HomeScreenState extends State<HomeScreen> {
 
     return Scaffold(
       appBar: appbar(name: "Puppetoon"),
+      drawer: const Drawer1(),
+      body: ListView.builder(
+        itemCount: videoAssets.length,
+        itemBuilder: (BuildContext context, int index) {
+          return VideoItem(
+            assetPath: videoAssets[index],
+            txt: videoTitles[index],
+          );
+        },
+      ),
+    );
+  }
+}
+
+class VideoItem extends StatefulWidget {
+  final String assetPath, txt;
+
+  VideoItem({required this.assetPath, required this.txt});
+
+  @override
+  _VideoItemState createState() => _VideoItemState();
+}
+
+class _VideoItemState extends State<VideoItem> {
+  late VideoPlayerController _controller;
+  late Future<void> _initializeVideoPlayerFuture;
+
+  @override
+  void initState() {
+    _controller = VideoPlayerController.asset(widget.assetPath);
+    _initializeVideoPlayerFuture = _controller.initialize();
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onTap: () {
+        setState(() {
+          if (_controller.value.isPlaying) {
+            _controller.pause();
+          } else {
+            _controller.play();
+          }
+        });
+      },
+      child: Padding(
+        padding: const EdgeInsets.all(10.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            FutureBuilder(
+              future: _initializeVideoPlayerFuture,
+              builder: (context, snapshot) {
+                if (snapshot.connectionState == ConnectionState.done) {
+                  return AspectRatio(
+                    aspectRatio: _controller.value.aspectRatio,
+                    child: VideoPlayer(_controller),
+                  );
+                } else {
+                  return const CircularProgressIndicator();
+                }
+              },
+            ),
+            SizedBox(
+              height: 10,
+            ),
+            Text(
+              widget.txt,
+              style: TextStyle(
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold,
+                  fontFamily: FontConst.nunitoSans),
+            )
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class Drawer1 extends StatefulWidget {
+  const Drawer1({Key? key}) : super(key: key);
+
+  @override
+  State<Drawer1> createState() => _Drawer1State();
+}
+
+class _Drawer1State extends State<Drawer1> {
+  @override
+  Widget build(BuildContext context) {
+    return Drawer(
+      backgroundColor: ColorConst.whiteColor,
+      child: ListView(
+        padding: EdgeInsets.zero,
+        children: [
+          UserAccountsDrawerHeader(
+            decoration: const BoxDecoration(
+              image: DecorationImage(
+                fit: BoxFit.cover,
+                image: AssetImage("assets/images/bg.jpeg"),
+              ),
+            ),
+            accountName: Text(
+              name.toString(),
+              style: const TextStyle(
+                color: ColorConst.whiteColor,
+              ),
+            ),
+            accountEmail: Text(
+              email.toString(),
+              style: const TextStyle(
+                color: ColorConst.whiteColor,
+              ),
+            ),
+            currentAccountPicture: CircleAvatar(
+              child: ClipOval(
+                child: profilePic == "assets/images/default_image.png"
+                    ? Image.asset(StringConst.defaultImage)
+                    : Image.network(profilePic.toString()),
+              ),
+            ),
+          ),
+          ListTile(
+              leading: const Icon(Icons.home),
+              title: const Text("Home"),
+              onTap: () {
+                if (Get.currentRoute == '/' ||
+                    Get.currentRoute == '/HomeScreen') {
+                  Get.back();
+                }
+              }),
+          const Divider(height: 0),
+          ListTile(
+            leading: const Icon(Icons.logout),
+            title: const Text("Logout"),
+            onTap: () async {},
+          ),
+        ],
+      ),
     );
   }
 }

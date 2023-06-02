@@ -1,8 +1,8 @@
 import 'package:country_picker/country_picker.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:puppeton/const/color_const.dart';
+import 'package:puppeton/const/image_const.dart';
 import '../auth/auth_provider.dart';
 import '../views/dialogs/ui_help.dart';
 
@@ -14,6 +14,7 @@ class PhoneScreen extends StatefulWidget {
 
 class _PhoneScreenState extends State<PhoneScreen> {
   final TextEditingController countryController = TextEditingController();
+
   Country selectedCountry = Country(
     phoneCode: "91",
     countryCode: "IN",
@@ -36,35 +37,28 @@ class _PhoneScreenState extends State<PhoneScreen> {
     );
     return Scaffold(
       body: Container(
-        margin: EdgeInsets.only(left: 25, right: 25),
+        margin: const EdgeInsets.only(left: 25, right: 25),
         alignment: Alignment.center,
         child: SingleChildScrollView(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Image.asset(
-                'assets/images/img12.png',
-                width: 350,
-                height: 350,
-              ),
-              SizedBox(
-                height: 25,
-              ),
-              Text(
+              Image.asset(StringConst.img1, height: 350),
+              const Text(
                 "PHONE AUTHENTICATION",
                 style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
               ),
-              SizedBox(
+              const SizedBox(
                 height: 10,
               ),
-              Text(
+              const Text(
                 "Enter your number",
                 style: TextStyle(
                   fontSize: 16,
                 ),
                 textAlign: TextAlign.center,
               ),
-              SizedBox(
+              const SizedBox(
                 height: 30,
               ),
               TextFormField(
@@ -72,7 +66,7 @@ class _PhoneScreenState extends State<PhoneScreen> {
                 cursorColor: ColorConst.primaryColor,
                 keyboardType: TextInputType.phone,
                 controller: countryController,
-                style: TextStyle(
+                style: const TextStyle(
                   fontSize: 18,
                   fontWeight: FontWeight.bold,
                 ),
@@ -143,7 +137,7 @@ class _PhoneScreenState extends State<PhoneScreen> {
                       : null,
                 ),
               ),
-              SizedBox(
+              const SizedBox(
                 height: 20,
               ),
               SizedBox(
@@ -160,7 +154,7 @@ class _PhoneScreenState extends State<PhoneScreen> {
                       UiHelper.showloadingDialog(context, "Loading");
                       sendPhoneNumber();
                     },
-                    child: Text("Send the code")),
+                    child: const Text("Send the code")),
               ),
             ],
           ),
