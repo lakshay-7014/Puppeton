@@ -1,9 +1,8 @@
-
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:pinput/pinput.dart';
 import 'package:provider/provider.dart';
 import 'package:puppeton/const/color_const.dart';
+import 'package:puppeton/const/image_const.dart';
 import 'package:puppeton/screens/pages/home_screen.dart';
 import 'package:puppeton/screens/profile_screen.dart';
 import '../auth/auth_provider.dart';
@@ -72,8 +71,7 @@ class _OtpScreenState extends State<OtpScreen> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Image.asset(
-                'assets/images/img12.png',
-                width: 350,
+                StringConst.img1,
                 height: 350,
               ),
               SizedBox(

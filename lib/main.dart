@@ -17,13 +17,7 @@ void main() async {
 
   SystemChrome.setPreferredOrientations(
       [DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]);
-  runApp(
-    MyApp(), // Wrap your app
-    // DevicePreview(
-    //   enabled: !kReleaseMode,
-    //   builder: (context) => MyApp(), // Wrap your app
-    // ),
-  );
+  runApp(const MyApp());
 }
 
 final navigatorKey = GlobalKey<NavigatorState>();
@@ -33,7 +27,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     SystemChrome.setSystemUIOverlayStyle(
-        SystemUiOverlayStyle(statusBarColor: Colors.transparent));
+        const SystemUiOverlayStyle(statusBarColor: Colors.transparent));
     return MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (_) => AuthProvider()),
@@ -43,7 +37,7 @@ class MyApp extends StatelessWidget {
         title: StringConst.appTitle,
         navigatorKey: navigatorKey,
         theme: ThemeData(fontFamily: "NunitoSans"),
-        home: WelcomeScreen(),
+        home: const WelcomeScreen(),
       ),
     );
   }

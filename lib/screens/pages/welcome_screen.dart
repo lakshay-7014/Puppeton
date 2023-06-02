@@ -1,6 +1,7 @@
-import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:puppeton/const/image_const.dart';
 import 'package:puppeton/screens/phone_screen.dart';
 import '../../auth/auth_provider.dart';
 import '../../const/color_const.dart';
@@ -24,21 +25,16 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Image.asset(
-                  "assets/images/img12.png",
-                  height: 300,
-                ),
+                Image.asset(StringConst.img1, height: 400),
                 const SizedBox(height: 20),
                 const SizedBox(height: 10),
                 const SizedBox(height: 20),
-                // custom button
-
                 SizedBox(
                   width: double.infinity,
                   height: 45,
                   child: ElevatedButton(
                     style: ElevatedButton.styleFrom(
-                        primary: ColorConst.primaryColor,
+                        backgroundColor: ColorConst.primaryColor,
                         shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(10))),
                     onPressed: () async {
@@ -48,12 +44,14 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                                 context,
                                 MaterialPageRoute(
                                   builder: (context) =>
-                                      HomeScreen(category: "NULL"),
+                                      const HomeScreen(category: "NULL"),
                                 ),
                               ),
                             );
                       } else {
-                        print("no");
+                        if (kDebugMode) {
+                          print("no");
+                        }
                         Navigator.pushReplacement(
                           context,
                           MaterialPageRoute(
@@ -62,7 +60,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                         );
                       }
                     },
-                    child: Text("Get Started"),
+                    child: const Text("Get Started"),
                   ),
                 ),
               ],

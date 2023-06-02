@@ -1,5 +1,3 @@
-//TODO:
 class StringConst {
-  static const String appTitle = 'PUPPETON';
+  static const String appTitle = 'PUPPETOON';
 }
-//TODO:
