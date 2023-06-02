@@ -2,9 +2,12 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:provider/provider.dart';
+import 'package:puppeton/auth/auth_provider.dart';
 import 'package:puppeton/const/color_const.dart';
 import 'package:puppeton/const/font_const.dart';
 import 'package:puppeton/const/image_const.dart';
+import 'package:puppeton/screens/pages/welcome_screen.dart';
 import 'package:puppeton/views/widgets/custom_appBar.dart';
 import 'package:video_player/video_player.dart';
 
@@ -84,7 +87,6 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    // final ap = Provider.of<AuthProvider>(context, listen: false);
     double displayWidth = MediaQuery.of(context).size.width;
 
     return Scaffold(
@@ -155,7 +157,17 @@ class _VideoItemState extends State<VideoItem> {
                     child: VideoPlayer(_controller),
                   );
                 } else {
-                  return const CircularProgressIndicator();
+                  return Center(
+                    child: Container(
+                      height: 40,
+                      width: 40,
+                      child: CircularProgressIndicator(
+                        //  backgroundColor: Colors.red,
+                        valueColor: new AlwaysStoppedAnimation<Color>(
+                            ColorConst.primaryColor),
+                      ),
+                    ),
+                  );
                 }
               },
             ),
@@ -186,6 +198,7 @@ class Drawer1 extends StatefulWidget {
 class _Drawer1State extends State<Drawer1> {
   @override
   Widget build(BuildContext context) {
+    final ap = Provider.of<AuthProvider>(context, listen: false);
     return Drawer(
       backgroundColor: ColorConst.whiteColor,
       child: ListView(
@@ -210,13 +223,24 @@ class _Drawer1State extends State<Drawer1> {
                 color: ColorConst.whiteColor,
               ),
             ),
-            currentAccountPicture: CircleAvatar(
-              child: ClipOval(
-                child: profilePic == "assets/images/default_image.png"
-                    ? Image.asset(StringConst.defaultImage)
-                    : Image.network(profilePic.toString()),
-              ),
+            currentAccountPicture: Container(
+              decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                  border: Border.all(
+                    color: Colors.white,
+                  ),
+                  image: DecorationImage(
+                    fit: BoxFit.cover,
+                    image: NetworkImage(profilePic.toString()),
+                  )),
             ),
+            // CircleAvatar(
+            //   child: ClipOval(
+            //     child: profilePic == "assets/images/default_image.png"
+            //         ? Image.asset(StringConst.defaultImage)
+            //         : Image.network(profilePic.toString()),
+            //   ),
+            // ),
           ),
           ListTile(
               leading: const Icon(Icons.home),
@@ -231,7 +255,13 @@ class _Drawer1State extends State<Drawer1> {
           ListTile(
             leading: const Icon(Icons.logout),
             title: const Text("Logout"),
-            onTap: () async {},
+            onTap: () async {
+              Navigator.pop(context);
+              ap.userSignOut().then((value) => Navigator.of(context)
+                  .pushAndRemoveUntil(
+                      MaterialPageRoute(builder: (c) => WelcomeScreen()),
+                      (route) => false));
+            },
           ),
         ],
       ),
