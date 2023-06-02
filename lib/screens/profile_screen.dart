@@ -96,23 +96,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                               controller: emailController,
                             ),
 
-                            textFeld(
-                              hintText: "Enter your aadhar number",
-                              icon: Icons.numbers,
-                              inputType: TextInputType.text,
-                              maxLines: 1,
-                              maxLength: 12,
-                              controller: aadharController,
-                            ),
                             // bio
-                            textFeld(
-                              hintText: "Enter your bio...",
-                              icon: Icons.edit,
-                              inputType: TextInputType.name,
-                              maxLines: 1,
-                              maxLength: 100,
-                              controller: bioController,
-                            ),
                           ],
                         ),
                       ),
@@ -197,8 +181,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
     UserModel userModel = UserModel(
       name: nameController.text.trim(),
       email: emailController.text.trim(),
-      bio: bioController.text.trim(),
-      aadhar: aadharController.text.trim(),
+      bio: "",
+      aadhar: "",
       profilePic: "",
       createdAt: "",
       phoneNumber: "",
